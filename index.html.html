@@ -1,0 +1,105 @@
+﻿<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    body {
+        background-color: #fff0f5;
+        color: black;
+        text-align: center;
+        font-family: Arial, sans-serif;
+    }
+
+    button {
+        padding: 10px 20px;
+        font-size: 18px;
+        border: none;
+        background-color: #ff69b4;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #ff1493; /* لون أغمق عند التمرير */
+        transform: scale(1.1); /* تكبير الزر عند التحريك */
+        transition: 0.3s;
+    }
+
+    button:active {
+        transform: scale(0.9); /* يصغر عند الضغط */
+        transition: 0.1s;
+    }
+
+    button:disabled {
+        background-color: #d3d3d3; /* لون رمادي عند التعطيل */
+        cursor: not-allowed;
+        transform: none;
+    }
+</style>
+<title>Hey, HTML</title>
+</head>
+<body>
+    <h1>Welcome to my first website</h1>
+    <p>This page was made by Mariam Khaled, I used HTML to make it hehe</p>
+
+    <div style="background-color: #ffb6c1; padding: 20px; display: inline-block; border-radius: 10px;">
+        <h2>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/29/PerfectStrawberry.jpg" 
+                 alt="Strawberry" width="50" height="50"> 
+            Do You Like Strawberry? 
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/29/PerfectStrawberry.jpg" 
+                 alt="Strawberry" width="50" height="50">
+        </h2>
+    </div>
+
+    <br><br>
+
+    <button id="yesBtn" onclick="voteYes()">Yes 💖 (<span id="yesCount">0</span>)</button>
+    <button id="noBtn" onclick="voteNo()">No 💔 (<span id="noCount">0</span>)</button>
+
+    <script>
+        // تخزين القيم في Local Storage بحيث تظل محفوظة حتى بعد إغلاق الصفحة
+        let yesVotes = localStorage.getItem("yesVotes") ? parseInt(localStorage.getItem("yesVotes")) : 0;
+        let noVotes = localStorage.getItem("noVotes") ? parseInt(localStorage.getItem("noVotes")) : 0;
+        let userVoted = localStorage.getItem("userVoted"); // هل المستخدم صوت من قبل؟
+
+        // تحديث الأعداد عند تحميل الصفحة
+        document.getElementById("yesCount").innerText = yesVotes;
+        document.getElementById("noCount").innerText = noVotes;
+
+        // تعطيل الأزرار لو المستخدم صوت قبل كده
+        if (userVoted) {
+            document.getElementById("yesBtn").disabled = true;
+            document.getElementById("noBtn").disabled = true;
+        }
+
+        function voteYes() {
+            if (!userVoted) {
+                yesVotes++;
+                localStorage.setItem("yesVotes", yesVotes);
+                document.getElementById("yesCount").innerText = yesVotes;
+
+                // تعطيل الأزرار بعد التصويت
+                disableButtons();
+            }
+        }
+
+        function voteNo() {
+            if (!userVoted) {
+                noVotes++;
+                localStorage.setItem("noVotes", noVotes);
+                document.getElementById("noCount").innerText = noVotes;
+
+                // تعطيل الأزرار بعد التصويت
+                disableButtons();
+            }
+        }
+
+        function disableButtons() {
+            localStorage.setItem("userVoted", "true"); // حفظ التصويت
+            document.getElementById("yesBtn").disabled = true;
+            document.getElementById("noBtn").disabled = true;
+        }
+    </script>
+</body>
+</html>
